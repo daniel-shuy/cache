@@ -263,6 +263,21 @@ When dependencies are installed later in the workflow, we must specify the same 
     key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
 ```
 
+## Scala - SBT
+
+```yaml
+- name: Cache SBT ivy cache
+  uses: actions/cache@v1
+  with:
+    path: ~/.ivy2/cache
+    key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}
+- name: Cache SBT
+  uses: actions/cache@v1
+  with:
+    path: ~/.sbt
+    key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+```
+
 ## Swift, Objective-C - Carthage
 
 ```yaml
