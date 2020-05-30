@@ -437,6 +437,7 @@ When dependencies are installed later in the workflow, we must specify the same 
 
 ## Scala - SBT
 
+SBT 1.2
 ```yaml
 - name: Cache SBT
   uses: actions/cache@v2
@@ -444,6 +445,51 @@ When dependencies are installed later in the workflow, we must specify the same 
     path: | 
       ~/.ivy2/cache
       ~/.sbt
+    key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+```
+
+SBT 1.3.0-1.3.10
+```yaml
+- name: Cache SBT
+  uses: actions/cache@v2
+  with:
+    path: | 
+      ~/.ivy2/cache
+      ~/.sbt
+      ~/.coursier/cache
+    key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+```
+
+SBT 1.3.11+
+```yaml
+- name: Cache SBT (Linux)
+  uses: actions/cache@v2
+  if: startsWith(runner.os, 'Linux')
+  with:
+    path: | 
+      ~/.ivy2/cache
+      ~/.sbt
+      ~/.cache/coursier/v1
+    key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+
+- name: Cache SBT (macOS)
+  uses: actions/cache@v2
+  if: startsWith(runner.os, 'macOS')
+  with:
+    path: | 
+      ~/.ivy2/cache
+      ~/.sbt
+      ~/Library/Caches/Coursier/v1
+    key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+
+- name: Cache SBT (Windows)
+  uses: actions/cache@v2
+  if: startsWith(runner.os, 'Windows')
+  with:
+    path: | 
+      ~/.ivy2/cache
+      ~/.sbt
+      ~\AppData\Local\Coursier\Cache\v1
     key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
 ```
 
